@@ -1,0 +1,60 @@
+@media screen and (max-width: 980px)
+{
+	.col
+	{
+		display:block;
+	}
+	.icon
+	{
+		display:block;
+		width:2em;
+		height:3em;
+	}
+	.topright
+	{
+		display:none;
+	}
+	.last
+	{
+		display:none;
+	}
+	.footimage
+	{
+		align-content:  center;
+	}
+	.o
+	{
+	text-align:center;
+	display: flex;
+	justify-content: center;
+	flex-direction:row;
+    align-items: center;
+    font-size:18px;
+
+	}
+	.lin
+	{
+	width: 80px;
+    background: #A4A4A4;
+    height:1px;
+    align-self: center;
+
+	}
+	#navbar
+	{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	.left
+	{
+		position: relative;
+		right:150px;
+	}
+
+	.icon
+	{
+		position:relative;
+		left:160px;
+	}
+}

@@ -1,0 +1,57 @@
+@media screen and (max-width: 980px) {
+	.pic 
+	{
+		display: none;
+	}
+
+	.bud
+	{
+		display:none;
+	}
+
+	.second 
+	{
+		display:block;
+	}
+	
+	.topright
+	{
+		display:none;
+	}
+	.icon
+	{
+		display:block;
+		width:2em;
+		height:3em;
+	}
+	.last
+	{
+		display:none;
+	}
+	.footimage
+	{
+		align-content:  center;
+	}
+	.third
+	{
+		display:none;
+	}
+	.line
+	{
+		display :none;
+	}
+	.three
+	{
+		display: grid;
+		justify-content: center;
+		grid-template-columns: auto;
+	}
+	.Design
+	{
+		padding-left:0;
+	}
+	.Development
+	{
+		padding-left:0;
+	}
+}
