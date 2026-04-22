@@ -6,6 +6,9 @@
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing from the script tag.");
     return;
   }
+  else {
+    console.log(deploymentName);
+  }
   // 2. Dynamically load Chat Messenger Stylesheets
   const cssDefault = document.createElement('link');
   cssDefault.rel = 'stylesheet';
