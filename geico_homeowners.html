@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEICO | Homeowners Insurance</title>
+    <meta name="description" content="Protect your home and savings with GEICO homeowners insurance. Get a free quote online today.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Link to shared styles -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Link to page-specific styles -->
+    <link rel="stylesheet" href="homeowners.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <!-- Clickable logo to go back to main Auto page -->
+                <a href="geico_auto.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" class="geico-logo" id="main-logo">
+                        <text x="10" y="60" font-family="'Outfit', sans-serif" font-size="65" font-weight="800" fill="#003366" letter-spacing="-2">GEICO</text>
+                    </svg>
+                </a>
+            </div>
+            <nav class="main-nav">
+                <a href="geico_auto.html">Auto</a>
+                <a href="#coverage">Coverage</a>
+                <a href="#discounts">Discounts</a>
+                <button class="btn btn-outline" id="nav-login">Log In</button>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="hero-section homeowners-hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Protect the Place You Call Home.</h1>
+                    <p class="hero-subtitle">Get a homeowners insurance quote and see how much you could save.</p>
+                    
+                    <div class="quote-box">
+                        <h2 class="quote-title">Homeowners Quote</h2>
+                        <form class="quote-form" onsubmit="event.preventDefault();">
+                            <div class="form-group">
+                                <input type="text" id="zip-code" placeholder="ZIP Code" maxlength="5" required>
+                                <label for="zip-code">ZIP Code</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-large" id="start-quote-btn">Start Quote</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <!-- Premium SVG Home Illustration -->
+                    <svg viewBox="0 0 500 500" class="hero-svg" id="homeowners-illustration">
+                        <defs>
+                            <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#003366" />
+                                <stop offset="100%" stop-color="#0055a5" />
+                            </linearGradient>
+                            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#FFCC00" />
+                                <stop offset="100%" stop-color="#FFAA00" />
+                            </linearGradient>
+                            <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#e0f2fe" />
+                                <stop offset="100%" stop-color="#f8fafc" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Background Sky -->
+                        <rect x="0" y="0" width="500" height="500" fill="url(#skyGrad)" rx="40" />
+                        
+                        <!-- Sun & Clouds -->
+                        <circle cx="400" cy="100" r="40" fill="url(#goldGrad)" />
+                        <path d="M 320,120 C 320,100 350,100 360,110 C 370,100 390,100 390,120 C 400,120 400,140 380,140 L 330,140 C 310,140 310,120 320,120 Z" fill="#FFFFFF" opacity="0.8" />
+                        <path d="M 80,160 C 80,140 110,140 120,150 C 130,140 150,140 150,160 C 160,160 160,180 140,180 L 90,180 C 70,180 70,160 80,160 Z" fill="#FFFFFF" opacity="0.8" />
+                        
+                        <!-- House Body -->
+                        <path d="M 150,400 L 150,250 L 350,250 L 350,400 Z" fill="#FFFFFF" stroke="#003366" stroke-width="8" stroke-linejoin="round" />
+                        <!-- Roof -->
+                        <path d="M 120,250 L 250,130 L 380,250 Z" fill="url(#blueGrad)" stroke="#003366" stroke-width="8" stroke-linejoin="round" />
+                        <!-- Chimney -->
+                        <rect x="300" y="160" width="30" height="60" fill="#003366" />
+                        
+                        <!-- Door -->
+                        <rect x="225" y="300" width="50" height="100" rx="4" fill="url(#goldGrad)" />
+                        <circle cx="235" cy="350" r="4" fill="#003366" />
+                        
+                        <!-- Windows -->
+                        <rect x="175" y="275" width="40" height="40" rx="4" fill="#e0f2fe" stroke="#003366" stroke-width="4" />
+                        <line x1="195" y1="275" x2="195" y2="315" stroke="#003366" stroke-width="4" />
+                        <line x1="175" y1="295" x2="215" y2="295" stroke="#003366" stroke-width="4" />
+                        
+                        <rect x="285" y="275" width="40" height="40" rx="4" fill="#e0f2fe" stroke="#003366" stroke-width="4" />
+                        <line x1="305" y1="275" x2="305" y2="315" stroke="#003366" stroke-width="4" />
+                        <line x1="285" y1="295" x2="325" y2="295" stroke="#003366" stroke-width="4" />
+                        
+                        <!-- Ground/Grass -->
+                        <path d="M 0,400 Q 250,380 500,400 L 500,500 L 0,500 Z" fill="#10b981" />
+                        <!-- Path to door -->
+                        <path d="M 225,400 L 210,450 L 290,450 L 275,400 Z" fill="#94a3b8" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section class="coverage-section" id="coverage">
+            <div class="container">
+                <h2 class="section-title">What Does GEICO Homeowners Cover?</h2>
+                <p class="section-subtitle">We help protect your investment from the unexpected.</p>
+                
+                <div class="coverage-grid">
+                    <div class="coverage-card">
+                        <div class="coverage-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <h3>Property Damage</h3>
+                        <p>Covers damage to your house's physical structure from fire, wind, hail, and other covered perils.</p>
+                    </div>
+                    <div class="coverage-card">
+                        <div class="coverage-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H4v4M2 20h20v-4H2v4zm2-4h16V8H4v8zm0 0V8m16 8V8"/><rect x="6" y="4" width="12" height="4" rx="1"/><path d="M12 12v4"/></svg>
+                        </div>
+                        <h3>Personal Property</h3>
+                        <p>Protects your belongings inside the home—like furniture, clothes, and electronics—even when you're away.</p>
+                    </div>
+                    <div class="coverage-card">
+                        <div class="coverage-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3>Personal Liability</h3>
+                        <p>Helps cover legal expenses and medical bills if someone is injured on your property and you are found at fault.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="discounts-section" id="discounts">
+            <div class="container">
+                <div class="discounts-content">
+                    <h2 class="section-title white-text">How to Save More</h2>
+                    <div class="discounts-list">
+                        <div class="discount-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFCC00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <div>
+                                <h3>Multi-Policy Discount</h3>
+                                <p>Combine your Homeowners and Auto insurance with GEICO and save on both policies.</p>
+                            </div>
+                        </div>
+                        <div class="discount-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFCC00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <div>
+                                <h3>Home Security Systems</h3>
+                                <p>Save money if your home is equipped with smoke alarms, burglar alarms, or deadbolt locks.</p>
+                            </div>
+                        </div>
+                        <div class="discount-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFCC00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <div>
+                                <h3>New Home Purchase</h3>
+                                <p>Are you a first-time homebuyer or recently moved? You might qualify for a special discount.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 GEICO. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Use</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
