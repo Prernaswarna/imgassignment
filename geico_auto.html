@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEICO | Insurance for Auto, Home, & More</title>
+    <meta name="description" content="Get a quote today and see how much you could save on auto, home, and renters insurance with GEICO.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" class="geico-logo" id="main-logo">
+                    <text x="10" y="60" font-family="'Outfit', sans-serif" font-size="65" font-weight="800" fill="#003366" letter-spacing="-2">GEICO</text>
+                </svg>
+            </div>
+            <nav class="main-nav">
+                <a href="#insurance">Insurance</a>
+                <a href="#information">Information</a>
+                <a href="#about">About</a>
+                <button class="btn btn-outline" id="nav-login">Log In</button>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="hero-section">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Savings & Service You Deserve.</h1>
+                    <p class="hero-subtitle">See how much you could save on auto insurance today.</p>
+                    
+                    <div class="quote-box">
+                        <h2 class="quote-title">Start Your Quote</h2>
+                        <form class="quote-form" onsubmit="event.preventDefault();">
+                            <div class="form-group">
+                                <input type="text" id="zip-code" placeholder="ZIP Code" maxlength="5" required>
+                                <label for="zip-code">ZIP Code</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-large" id="start-quote-btn">Start Quote</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <svg viewBox="0 0 500 500" class="hero-svg" id="hero-illustration">
+                        <defs>
+                            <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#003366" />
+                                <stop offset="100%" stop-color="#0055a5" />
+                            </linearGradient>
+                            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#FFCC00" />
+                                <stop offset="100%" stop-color="#FFAA00" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="250" cy="250" r="200" fill="url(#blueGrad)" opacity="0.1" />
+                        <rect x="100" y="100" width="300" height="300" rx="40" fill="url(#blueGrad)" transform="rotate(15 250 250)" />
+                        <circle cx="380" cy="150" r="50" fill="url(#goldGrad)" />
+                        <path d="M 150,300 C 150,280 170,260 200,260 L 300,260 C 330,260 350,280 350,300 L 370,320 C 380,330 380,350 360,350 L 140,350 C 120,350 120,330 130,320 Z" fill="#FFFFFF" />
+                        <circle cx="180" cy="350" r="25" fill="#333333" />
+                        <circle cx="320" cy="350" r="25" fill="#333333" />
+                        <path d="M 250,150 L 290,170 L 290,210 C 290,240 250,260 250,260 C 250,260 210,240 210,210 L 210,170 Z" fill="url(#goldGrad)" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section class="products-section" id="insurance">
+            <div class="container">
+                <h2 class="section-title">Select a Product</h2>
+                <div class="products-grid">
+                    <div class="product-card" id="prod-auto">
+                        <div class="product-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                        </div>
+                        <h3>Auto</h3>
+                    </div>
+                    <div class="product-card" id="prod-home">
+                        <div class="product-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <h3>Homeowners</h3>
+                    </div>
+                    <div class="product-card" id="prod-renters">
+                        <div class="product-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/><path d="M9 17h2"/><path d="M9 13h2"/><path d="M9 9h2"/><path d="M13 17h2"/><path d="M13 13h2"/><path d="M13 9h2"/></svg>
+                        </div>
+                        <h3>Renters</h3>
+                    </div>
+                    <div class="product-card" id="prod-moto">
+                        <div class="product-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="18" r="3"/><circle cx="19" cy="18" r="3"/><path d="M12 18a2.5 2.5 0 0 0 2.5-2.5V12"/><path d="M12 12H9l-3 3h5"/><path d="M16 12a1.5 1.5 0 0 0 1.5-1.5V7.5L19 9"/></svg>
+                        </div>
+                        <h3>Motorcycle</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="benefits-section" id="information">
+            <div class="container">
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-number">01</div>
+                        <h3>Fast & Easy Quotes</h3>
+                        <p>Get a customized quote in just a few minutes. Simple, straightforward, and tailored to your needs.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-number">02</div>
+                        <h3>24/7 Support</h3>
+                        <p>We're always here for you. Access your policy, file a claim, or get help anytime, anywhere.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-number">03</div>
+                        <h3>Big Discounts</h3>
+                        <p>Multi-policy, safe driver, and good student discounts are just a few ways you can save more.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 GEICO. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Use</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
