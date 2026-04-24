@@ -221,6 +221,9 @@ h1, h2, h3 {
     text-align: center;
     cursor: pointer;
     transition: all var(--transition-normal);
+    text-decoration: none; /* Removes browser underline */
+    color: inherit;        /* Keeps text dark instead of blue */
+    display: block;        /* Ensures the whole card is clickable */
 }
 .product-card:hover {
     border-color: var(--primary-color);
