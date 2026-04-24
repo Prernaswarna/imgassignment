@@ -2,6 +2,7 @@
   // 1. Get the deployment name from the script tag parameter
   const currentScript = document.currentScript;
   const deploymentName = (currentScript && currentScript.dataset.deploymentName) || window.cesDeploymentName;
+  const agentTitle = window.cesAgentTitle || "Agent";
   if (!deploymentName) {
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing from the script tag.");
     return;
@@ -51,7 +52,7 @@
       chatMessenger.style.zIndex = '9999';
       
       var container = document.createElement('chat-messenger-container');
-      container.setAttribute('chat-title', 'Agent');
+      container.setAttribute('chat-title', agentTitle);
       container.setAttribute('chat-title-icon', 'https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png');
       container.setAttribute('enable-file-upload', '');
       
