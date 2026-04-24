@@ -46,6 +46,9 @@
       
       chatMessenger.setAttribute('render-mode', 'slide-over');
       chatMessenger.classList.add('slide-over');
+
+      chatMessenger.style.position = 'fixed';
+      chatMessenger.style.zIndex = '9999';
       
       var container = document.createElement('chat-messenger-container');
       container.setAttribute('chat-title', 'Agent');
