@@ -3,6 +3,7 @@
   const currentScript = document.currentScript;
   const deploymentName = (currentScript && currentScript.dataset.deploymentName) || window.cesDeploymentName;
   const agentTitle = window.cesAgentTitle || "Agent";
+  console.log(window.cesAgentTitle);
   console.log(agentTitle);
   if (!deploymentName) {
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing from the script tag.");
