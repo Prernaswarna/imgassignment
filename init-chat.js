@@ -12,20 +12,29 @@
   else {
     console.log(deploymentName);
   }
-  // 2. Dynamically load Chat Messenger Stylesheets
-  const cssDefault = document.createElement('link');
-  cssDefault.rel = 'stylesheet';
-  cssDefault.href = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-default.css';
-  document.head.appendChild(cssDefault);
-  const cssLayout = document.createElement('link');
-  cssLayout.rel = 'stylesheet';
-  cssLayout.href = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-layout.css';
-  document.head.appendChild(cssLayout);
-  // 3. Dynamically load Chat Messenger Library
-  const script = document.createElement('script');
-  script.src = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/chat-messenger.js';
-  script.defer = true;
-  document.head.appendChild(script);
+  // 2. Dynamically load Chat Messenger Stylesheets (Guarded against duplicates)
+  const cssDefaultUrl = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-default.css';
+  if (!document.querySelector(`link[href="${cssDefaultUrl}"]`)) {
+    const cssDefault = document.createElement('link');
+    cssDefault.rel = 'stylesheet';
+    cssDefault.href = cssDefaultUrl;
+    document.head.appendChild(cssDefault);
+  }
+  const cssLayoutUrl = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-layout.css';
+  if (!document.querySelector(`link[href="${cssLayoutUrl}"]`)) {
+    const cssLayout = document.createElement('link');
+    cssLayout.rel = 'stylesheet';
+    cssLayout.href = cssLayoutUrl;
+    document.head.appendChild(cssLayout);
+  }
+  // 3. Dynamically load Chat Messenger Library (Guarded against duplicates)
+  const librarySrc = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/chat-messenger.js';
+  if (!document.querySelector(`script[src="${librarySrc}"]`)) {
+    const script = document.createElement('script');
+    script.src = librarySrc;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
   // 4. JavaScript to create and initialize
   window.addEventListener("chat-messenger-loaded", function() {
     if (typeof chatSdk !== 'undefined') {
