@@ -5,6 +5,13 @@
   const agentTitle = window.cesAgentTitle || "Agent";
   console.log(window.cesAgentTitle);
   console.log(agentTitle);
+
+  // CSS customizations
+  const surfaceColor = (currentScript && (currentScript.dataset.colorSurface || currentScript.dataset.surfaceColor)) || window.cesColorSurface || window.cesSurfaceColor;
+  const primaryColor = (currentScript && (currentScript.dataset.colorPrimary || currentScript.dataset.primaryColor)) || window.cesColorPrimary || window.cesPrimaryColor;
+  const primaryContainerColor = (currentScript && (currentScript.dataset.colorPrimaryContainer || currentScript.dataset.primaryContainerColor)) || window.cesColorPrimaryContainer || window.cesPrimaryContainerColor;
+  const fontFamily = (currentScript && currentScript.dataset.fontFamily) || window.cesFontFamily;
+  
   if (!deploymentName) {
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing from the script tag.");
     return;
@@ -61,6 +68,20 @@
 
       chatMessenger.style.position = 'fixed';
       chatMessenger.style.zIndex = '9999';
+
+       // Dynamically set custom properties if parsed correctly
+      if (surfaceColor && String(surfaceColor).trim() !== "") {
+        chatMessenger.style.setProperty('--chat-messenger-color--surface', String(surfaceColor).trim());
+      }
+      if (primaryColor && String(primaryColor).trim() !== "") {
+        chatMessenger.style.setProperty('--chat-messenger-color--primary', String(primaryColor).trim());
+      }
+      if (primaryContainerColor && String(primaryContainerColor).trim() !== "") {
+        chatMessenger.style.setProperty('--chat-messenger-color--primary-container', String(primaryContainerColor).trim());
+      }
+      if (fontFamily && String(fontFamily).trim() !== "") {
+        chatMessenger.style.setProperty('--chat-messenger-font-family', String(fontFamily).trim());
+      }
       
       var container = document.createElement('chat-messenger-container');
       container.setAttribute('chat-title', agentTitle);
