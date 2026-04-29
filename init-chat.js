@@ -7,9 +7,9 @@
   console.log(agentTitle);
 
   // CSS customizations
-  const surfaceColor = (currentScript && (currentScript.dataset.colorSurface || currentScript.dataset.surfaceColor)) || window.cesColorSurface || window.cesSurfaceColor;
-  const primaryColor = (currentScript && (currentScript.dataset.colorPrimary || currentScript.dataset.primaryColor)) || window.cesColorPrimary || window.cesPrimaryColor;
-  const primaryContainerColor = (currentScript && (currentScript.dataset.colorPrimaryContainer || currentScript.dataset.primaryContainerColor)) || window.cesColorPrimaryContainer || window.cesPrimaryContainerColor;
+  const surfaceColor = (currentScript && currentScript.dataset.colorSurface) || window.cesColorSurface;
+  const primaryColor = (currentScript && currentScript.dataset.colorPrimary) || window.cesColorPrimary;
+  const primaryContainerColor = (currentScript && currentScript.dataset.colorPrimaryContainer) || window.cesColorPrimaryContainer;
   const fontFamily = (currentScript && currentScript.dataset.fontFamily) || window.cesFontFamily;
   
   if (!deploymentName) {
