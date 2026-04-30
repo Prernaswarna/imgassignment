@@ -1,16 +1,14 @@
 (function() {
-  // 1. Get the deployment name from the script tag parameter
-  const currentScript = document.currentScript;
-  const deploymentName = (currentScript && currentScript.dataset.deploymentName) || window.cesDeploymentName;
+  const deploymentName = window.cesDeploymentName;
   const agentTitle = window.cesAgentTitle || "Agent";
   console.log(window.cesAgentTitle);
   console.log(agentTitle);
 
   // CSS customizations
-  const colorOnPrimaryContainer = (currentScript && currentScript.dataset.colorOnPrimaryContainer) || window.cesColorOnPrimaryContainer;
-  const primaryColor = (currentScript && currentScript.dataset.colorPrimary) || window.cesColorPrimary;
-  const primaryContainerColor = (currentScript && currentScript.dataset.colorPrimaryContainer) || window.cesColorPrimaryContainer;
-  const fontFamily = (currentScript && currentScript.dataset.fontFamily) || window.cesFontFamily;
+  const colorOnPrimaryContainer = window.cesColorOnPrimaryContainer;
+  const primaryColor = window.cesColorPrimary;
+  const primaryContainerColor = window.cesColorPrimaryContainer;
+  const fontFamily = || window.cesFontFamily;
   
   if (!deploymentName) {
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing from the script tag.");
