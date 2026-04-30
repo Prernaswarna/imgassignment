@@ -7,7 +7,7 @@
   console.log(agentTitle);
 
   // CSS customizations
-  const surfaceColor = (currentScript && currentScript.dataset.colorSurface) || window.cesColorSurface;
+  const colorOnPrimaryContainer = (currentScript && currentScript.dataset.colorOnPrimaryContainer) || window.cesColorOnPrimaryContainer;
   const primaryColor = (currentScript && currentScript.dataset.colorPrimary) || window.cesColorPrimary;
   const primaryContainerColor = (currentScript && currentScript.dataset.colorPrimaryContainer) || window.cesColorPrimaryContainer;
   const fontFamily = (currentScript && currentScript.dataset.fontFamily) || window.cesFontFamily;
@@ -71,7 +71,7 @@
 
        // Dynamically set custom properties if parsed correctly
       if (surfaceColor && String(surfaceColor).trim() !== "") {
-        chatMessenger.style.setProperty('--chat-messenger-color--surface', String(surfaceColor).trim());
+        chatMessenger.style.setProperty('--chat-messenger-color--on-primary-container', String(colorOnPrimaryContainer).trim());
       }
       if (primaryColor && String(primaryColor).trim() !== "") {
         chatMessenger.style.setProperty('--chat-messenger-color--primary', String(primaryColor).trim());
