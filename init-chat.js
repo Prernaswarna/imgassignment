@@ -70,7 +70,7 @@
       chatMessenger.style.zIndex = '9999';
 
        // Dynamically set custom properties if parsed correctly
-      if (surfaceColor && String(surfaceColor).trim() !== "") {
+      if (colorOnPrimaryContainer && String(colorOnPrimaryContainer).trim() !== "") {
         chatMessenger.style.setProperty('--chat-messenger-color--on-primary-container', String(colorOnPrimaryContainer).trim());
       }
       if (primaryColor && String(primaryColor).trim() !== "") {
