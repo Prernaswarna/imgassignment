@@ -9,6 +9,10 @@
   const primaryColor = window.cesColorPrimary;
   const primaryContainerColor = window.cesColorPrimaryContainer;
   const fontFamily = window.cesFontFamily;
+
+  console.log("colorOnPrimaryContainer: ", colorOnPrimaryContainer);
+  console.log("primaryColor: ", primaryColor);
+  console.log("primaryContainerColor: ", primaryContainerColor);
   
   if (!deploymentName) {
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing from the script tag.");
