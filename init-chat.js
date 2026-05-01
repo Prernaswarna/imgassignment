@@ -5,14 +5,14 @@
   console.log(agentTitle);
 
   // CSS customizations
-  const colorOnPrimaryContainer = window.cesColorOnPrimaryContainer;
-  const primaryColor = window.cesColorPrimary;
-  const primaryContainerColor = window.cesColorPrimaryContainer;
-  const fontFamily = window.cesFontFamily;
+  // const colorOnPrimaryContainer = window.cesColorOnPrimaryContainer;
+  // const primaryColor = window.cesColorPrimary;
+  // const primaryContainerColor = window.cesColorPrimaryContainer;
+  // const fontFamily = window.cesFontFamily;
 
-  console.log("colorOnPrimaryContainer: ", colorOnPrimaryContainer);
-  console.log("primaryColor: ", primaryColor);
-  console.log("primaryContainerColor: ", primaryContainerColor);
+  // console.log("colorOnPrimaryContainer: ", colorOnPrimaryContainer);
+  // console.log("primaryColor: ", primaryColor);
+  // console.log("primaryContainerColor: ", primaryContainerColor);
   
   if (!deploymentName) {
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing from the script tag.");
@@ -72,18 +72,18 @@
       chatMessenger.style.zIndex = '9999';
 
        // Dynamically set custom properties if parsed correctly
-      if (colorOnPrimaryContainer && String(colorOnPrimaryContainer).trim() !== "") {
-        chatMessenger.style.setProperty('--chat-messenger-color--on-primary-container', String(colorOnPrimaryContainer).trim());
-      }
-      if (primaryColor && String(primaryColor).trim() !== "") {
-        chatMessenger.style.setProperty('--chat-messenger-color--primary', String(primaryColor).trim());
-      }
-      if (primaryContainerColor && String(primaryContainerColor).trim() !== "") {
-        chatMessenger.style.setProperty('--chat-messenger-color--primary-container', String(primaryContainerColor).trim());
-      }
-      if (fontFamily && String(fontFamily).trim() !== "") {
-        chatMessenger.style.setProperty('--chat-messenger-font-family', String(fontFamily).trim());
-      }
+      // if (colorOnPrimaryContainer && String(colorOnPrimaryContainer).trim() !== "") {
+      //   chatMessenger.style.setProperty('--chat-messenger-color--on-primary-container', String(colorOnPrimaryContainer).trim());
+      // }
+      // if (primaryColor && String(primaryColor).trim() !== "") {
+      //   chatMessenger.style.setProperty('--chat-messenger-color--primary', String(primaryColor).trim());
+      // }
+      // if (primaryContainerColor && String(primaryContainerColor).trim() !== "") {
+      //   chatMessenger.style.setProperty('--chat-messenger-color--primary-container', String(primaryContainerColor).trim());
+      // }
+      // if (fontFamily && String(fontFamily).trim() !== "") {
+      //   chatMessenger.style.setProperty('--chat-messenger-font-family', String(fontFamily).trim());
+      // }
       
       var container = document.createElement('chat-messenger-container');
       container.setAttribute('chat-title', agentTitle);
