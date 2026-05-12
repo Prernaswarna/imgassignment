@@ -69,6 +69,7 @@
         parameters: formParams
       });
       console.log("Successfully injected form data into GECX session!");
+    }
   });
   function initChatMessenger() {
     customElements.whenDefined('chat-messenger').then(function() {
