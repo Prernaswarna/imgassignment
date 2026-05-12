@@ -34,6 +34,28 @@
     script.defer = true;
     document.head.appendChild(script);
   }
+
+  // A. Scrape whatever form data is present on the current page
+    var formParams = {};
+    var form = document.querySelector('form');
+    if (form) {
+      var formData = new FormData(form);
+      for (var pair of formData.entries()) {
+        // Capture non-empty values
+        if (pair[1]) {
+          formParams[pair[0]] = pair[1];
+        }
+      }
+    }
+    console.log("Scraped form data for GECX:", formParams);
+    // B. Pass parameters to the GECX Agent session
+    var chatMessenger = document.querySelector('chat-messenger');
+    if (chatMessenger && Object.keys(formParams).length > 0) {
+      chatMessenger.setQueryParameters({
+        parameters: formParams
+      });
+    }
+  
   // 4. JavaScript to create and initialize
   window.addEventListener("chat-messenger-loaded", function() {
     if (typeof chatSdk !== 'undefined') {
