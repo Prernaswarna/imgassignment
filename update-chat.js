@@ -35,55 +35,18 @@
     document.head.appendChild(script);
   }
   
-  // 4. JavaScript to create and initialize
-  window.addEventListener("chat-messenger-loaded", function() {
-    if (typeof chatSdk !== 'undefined') {
-      chatSdk.registerContext(
-        chatSdk.prebuilts.ces.createContext({
-          deploymentName: deploymentName, // Using the parameter
-          tokenBroker: {
-            enableTokenBroker: true,
-            enableRecaptcha: true
-          },
-          enableWelcomeEvent: true,
-        })
-      );
-    }
-
-    // Scrape form data at this exact moment (30 seconds after page load)
-    var formParams = {};
-    var form = document.querySelector('form');
-    if (form) {
-      var formData = new FormData(form);
-      for (var pair of formData.entries()) {
-        if (pair[1]) { // Only grab non-empty fields filled by the user
-          formParams[pair[0]] = pair[1];
-        }
-      }
-    }
-    
-    console.log("Form data scraped right before chat start:", formParams);
-    // Pass the scraped parameters to the GECX Agent
-    var chatMessenger = document.querySelector('chat-messenger');
-    if (chatMessenger && Object.keys(formParams).length > 0) {
-      chatMessenger.setQueryParameters({
-        parameters: formParams
-      });
-      console.log("Successfully injected form data into GECX session!");
-    }
-  });
+  // 4. Function to build, configure, and append the chat messenger element
   function initChatMessenger() {
+    // Ensure the library is fully loaded before configuring the element
     customElements.whenDefined('chat-messenger').then(function() {
       if (document.querySelector('chat-messenger')) return;
       
+      console.log("30 seconds up! Initializing GECX Messenger element...");
       var chatMessenger = document.createElement('chat-messenger');
       chatMessenger.setAttribute('url-allowlist', '*');
       
       chatMessenger.setAttribute('render-mode', 'slide-over');
       chatMessenger.classList.add('slide-over');
-
-      chatMessenger.setAttribute('intent', 'WELCOME'); // Trigger welcome flow
-
       chatMessenger.style.position = 'fixed';
       chatMessenger.style.zIndex = '9999';
       
@@ -110,6 +73,26 @@
       container.appendChild(closeButton);
       chatMessenger.appendChild(container);
       
+      // STEP A: Scrape form data now (at the 30-second mark)
+      var formParams = {};
+      var form = document.querySelector('form');
+      if (form) {
+        var formData = new FormData(form);
+        for (var pair of formData.entries()) {
+          if (pair[1]) { // Only grab filled-out inputs
+            formParams[pair[0]] = pair[1];
+          }
+        }
+      }
+      console.log("Form data scraped successfully:", formParams);
+      // STEP B: Inject form parameters directly into the element
+      if (Object.keys(formParams).length > 0) {
+        chatMessenger.setQueryParameters({
+          parameters: formParams
+        });
+        console.log("Form parameters loaded into messenger.");
+      }
+      // STEP C: Append element to DOM
       if (document.body) {
         document.body.appendChild(chatMessenger);
       } else {
@@ -117,7 +100,23 @@
           document.body.appendChild(chatMessenger);
         });
       }
+      // STEP D: Register GECX Context and trigger welcome event immediately!
+      if (typeof chatSdk !== 'undefined') {
+        chatSdk.registerContext(
+          chatSdk.prebuilts.ces.createContext({
+            deploymentName: deploymentName,
+            enableWelcomeEvent: true, // Initiates greeting automatically
+            tokenBroker: {
+              enableTokenBroker: true,
+              enableRecaptcha: true
+            }
+          })
+        );
+        console.log("GECX Context registered successfully!");
+      }
     });
   }
+  
+  // Wait 30 seconds before starting the initialization
   setTimeout(initChatMessenger, 30000);
 })();
