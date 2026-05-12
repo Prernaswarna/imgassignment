@@ -96,33 +96,204 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<img src="download.svg" alt="Download logo" style="width:16.08px;"></img>
 			<p style="display:inline;font-size: 16.08px;font-family: Nunito Sans;">Download Guidelines</p>
 		</div>
-
 	</div>
+	<!-- Premium Insurance & Auto Policy Form -->
+<div class="form-container">
+  <h2>Insurance Application Form</h2>
+  <p class="subtitle">Provide your details below. The AI Assistant will automatically review and help you complete your quote.</p>
+  
+  <form id="insuranceForm">
+    <!-- 1. Personal Information Section -->
+    <div class="section-title">Personal Details</div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="contact_name">Full Name</label>
+        <input type="text" id="contact_name" name="contact_name" placeholder="John Doe" required>
+      </div>
+      <div class="form-group">
+        <label for="contact_email">Email Address</label>
+        <input type="email" id="contact_email" name="contact_email" placeholder="john.doe@example.com" required>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="contact_phone">Phone Number</label>
+        <input type="tel" id="contact_phone" name="contact_phone" placeholder="(555) 000-0000" required>
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="address">Home Address</label>
+      <input type="text" id="address" name="address" placeholder="123 Main St, Seattle, WA 98101" required>
+    </div>
+    <!-- 2. Policy Section -->
+    <div class="section-title">Policy Details</div>
+    <div class="form-group">
+      <label for="policy_type">Policy Type</label>
+      <select id="policy_type" name="policy_type" required>
+        <option value="">Select Policy Type</option>
+        <option value="auto">Auto Insurance</option>
+        <option value="home">Home Insurance</option>
+        <option value="umbrella">Umbrella Insurance</option>
+      </select>
+    </div>
+    <!-- 3. Auto Specific Section (Collapsible or Always Visible) -->
+    <div id="autoSection">
+      <div class="section-title">Auto Information</div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="auto_vin">Vehicle Identification Number (VIN)</label>
+          <input type="text" id="auto_vin" name="auto_vin" placeholder="17-character VIN">
+        </div>
+        <div class="form-group">
+          <label for="auto_details">Vehicle Details (Year, Make, Model)</label>
+          <input type="text" id="auto_details" name="auto_details" placeholder="e.g., 2024 Toyota Camry">
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="anti_theft_type">Anti-Theft Device</label>
+          <select id="anti_theft_type" name="anti_theft_type">
+            <option value="">Select Option</option>
+            <option value="alarm">Active Alarm System</option>
+            <option value="gps">GPS Tracker / LoJack</option>
+            <option value="immobilizer">Engine Immobilizer</option>
+            <option value="none">None</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ownership_status">Ownership Status</label>
+          <select id="ownership_status" name="ownership_status">
+            <option value="">Select Option</option>
+            <option value="owned">Owned Outright</option>
+            <option value="financed">Financed</option>
+            <option value="leased">Leased</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="purchase_date">Vehicle Purchase Date</label>
+          <input type="date" id="purchase_date" name="purchase_date">
+        </div>
+        <div class="form-group">
+          <label for="current_insurance">Currently Insured?</label>
+          <select id="current_insurance" name="current_insurance">
+            <option value="">Select Option</option>
+            <option value="yes">Yes, currently insured</option>
+            <option value="no">No, currently uninsured</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="driving_history">Driving History Notes</label>
+        <input type="text" id="driving_history" name="driving_history" placeholder="e.g., No accidents or tickets in the last 3 years">
+      </div>
+    </div>
+    
+    <button type="button" class="form-submit-btn">Start Review With AI Agent</button>
+  </form>
 </div>
-
-<!-- <df-messenger
-      location="us-central1"
-      project-id="chat-agent-trial-again-613841"
-      agent-id="aac3f220-e7b8-4398-8e2e-476fdb16cbda"
-      language-code="en"
-      max-query-length="-1">
-      <df-messenger-chat-bubble
-        chat-title="Business Agent">
-      </df-messenger-chat-bubble>
-    </df-messenger>
-    <style>
-      df-messenger {
-        z-index: 999;
-        position: fixed;
-        --df-messenger-font-color: #000;
-        --df-messenger-font-family: Google Sans;
-        --df-messenger-chat-background: #f3f6fc;
-        --df-messenger-message-user-background: #d3e3fd;
-        --df-messenger-message-bot-background: #fff;
-        bottom: 16px;
-        right: 16px;
-      }
-    </style> -->
+<!-- Sleek CSS Styling for Premium Appearance -->
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --text-light: #64748b;
+  }
+  .form-container {
+    max-width: 680px;
+    margin: 40px auto;
+    padding: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+  }
+  .form-container h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--primary);
+  }
+  .form-container .subtitle {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 28px 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f1f5f9;
+    color: var(--text);
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 576px) {
+    .grid-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group label {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .form-group input, 
+  .form-group select {
+    height: 42px;
+    padding: 0 14px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: #f8fafc;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .form-group input:focus, 
+  .form-group select:focus {
+    border-color: var(--primary);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  .form-submit-btn {
+    width: 100%;
+    height: 46px;
+    margin-top: 24px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .form-submit-btn:hover {
+    background-color: var(--primary-hover);
+  }
+</style>
+</div>
 
 <footer class="foot">
 		<div class="footimage">
