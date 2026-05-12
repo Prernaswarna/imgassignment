@@ -34,27 +34,6 @@
     script.defer = true;
     document.head.appendChild(script);
   }
-
-  // A. Scrape whatever form data is present on the current page
-    var formParams = {};
-    var form = document.querySelector('form');
-    if (form) {
-      var formData = new FormData(form);
-      for (var pair of formData.entries()) {
-        // Capture non-empty values
-        if (pair[1]) {
-          formParams[pair[0]] = pair[1];
-        }
-      }
-    }
-    console.log("Scraped form data for GECX:", formParams);
-    // B. Pass parameters to the GECX Agent session
-    var chatMessenger = document.querySelector('chat-messenger');
-    if (chatMessenger && Object.keys(formParams).length > 0) {
-      chatMessenger.setQueryParameters({
-        parameters: formParams
-      });
-    }
   
   // 4. JavaScript to create and initialize
   window.addEventListener("chat-messenger-loaded", function() {
@@ -69,6 +48,27 @@
         })
       );
     }
+
+    // Scrape form data at this exact moment (30 seconds after page load)
+    var formParams = {};
+    var form = document.querySelector('form');
+    if (form) {
+      var formData = new FormData(form);
+      for (var pair of formData.entries()) {
+        if (pair[1]) { // Only grab non-empty fields filled by the user
+          formParams[pair[0]] = pair[1];
+        }
+      }
+    }
+    
+    console.log("Form data scraped right before chat start:", formParams);
+    // Pass the scraped parameters to the GECX Agent
+    var chatMessenger = document.querySelector('chat-messenger');
+    if (chatMessenger && Object.keys(formParams).length > 0) {
+      chatMessenger.setQueryParameters({
+        parameters: formParams
+      });
+      console.log("Successfully injected form data into GECX session!");
   });
   function initChatMessenger() {
     customElements.whenDefined('chat-messenger').then(function() {
