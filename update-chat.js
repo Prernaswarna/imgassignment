@@ -93,10 +93,5 @@
       }
     });
   }
-  if (window.customElements && customElements.get('chat-messenger')) {
-    initChatMessenger();
-  } else {
-    window.addEventListener('load', initChatMessenger);
-    setTimeout(initChatMessenger, 3000);
-  }
+  setTimeout(initChatMessenger, 30000);
 })();
