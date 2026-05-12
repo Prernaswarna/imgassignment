@@ -44,8 +44,7 @@
           tokenBroker: {
             enableTokenBroker: true,
             enableRecaptcha: true
-          }
-          // Automatically prompt the agent to start the conversation with a greeting.
+          },
           enableWelcomeEvent: true,
         })
       );
