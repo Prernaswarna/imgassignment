@@ -81,6 +81,8 @@
       chatMessenger.setAttribute('render-mode', 'slide-over');
       chatMessenger.classList.add('slide-over');
 
+      chatMessenger.setAttribute('intent', 'WELCOME'); // Trigger welcome flow
+
       chatMessenger.style.position = 'fixed';
       chatMessenger.style.zIndex = '9999';
       
