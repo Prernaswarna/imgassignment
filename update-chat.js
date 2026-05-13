@@ -23,23 +23,22 @@
         chatSdk.registerContext(
           chatSdk.prebuilts.ces.createContext({
             deploymentName: deploymentName,
-            tokenBroker: { enableTokenBroker: true, enableRecaptcha: true }
+            tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
           })
         );
       }
       // Define the action to execute once GECX is fully upgraded
       const initializeSession = () => {
         if (Object.keys(formParams).length > 0) {
-          chatMessenger.setQueryParameters({ parameters: formParams });
-          console.log("Form parameters loaded into GECX.");
+          // Convert form object to a string and send directly as the chat request
+          const requestString = JSON.stringify(formParams);
+          chatMessenger.sendQuery(requestString);
+          console.log("Form data loaded and sent as request.");
         }
-        // FORCE the agent to start talking programmatically
-        chatMessenger.sendRequest('event', 'sys.welcome');
-        console.log("Chat started successfully with pre-filled parameters!");
       };
       // TIMING GUARD: If element is already upgraded, run immediately.
       // Otherwise, wait for the widget's official load event to execute.
-      if (typeof chatMessenger.setQueryParameters === 'function') {
+      if (typeof chatMessenger.sendQuery === 'function') {
         initializeSession();
       } else {
         chatMessenger.addEventListener('chat-messenger-loaded', initializeSession, { once: true });
