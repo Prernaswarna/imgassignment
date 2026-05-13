@@ -23,11 +23,11 @@
         chatSdk.registerContext(
           chatSdk.prebuilts.ces.createContext({
             deploymentName: deploymentName,
-            tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
+            tokenBroker: { enableTokenBroker: true, enableRecaptcha: true }
           })
         );
       }
-      // Define the action to execute once GECX is fully upgraded
+      // Define the action to execute once GECX is fully upgraded and authenticated
       const initializeSession = () => {
         if (Object.keys(formParams).length > 0) {
           // Convert form object to a string and send directly as the chat request
@@ -36,12 +36,16 @@
           console.log("Form data loaded and sent as request.");
         }
       };
-      // TIMING GUARD: If element is already upgraded, run immediately.
-      // Otherwise, wait for the widget's official load event to execute.
+      
+      // TIMING GUARD: Wait for the widget to load, then give the Token Broker 
+      // a brief moment to successfully generate the chatToken before sending the request.
+      const onWidgetReady = () => {
+        setTimeout(initializeSession, 2000); // 2-second delay for authentication handshake
+      };
       if (typeof chatMessenger.sendQuery === 'function') {
-        initializeSession();
+        onWidgetReady();
       } else {
-        chatMessenger.addEventListener('chat-messenger-loaded', initializeSession, { once: true });
+        chatMessenger.addEventListener('chat-messenger-loaded', onWidgetReady, { once: true });
       }
     });
   }
