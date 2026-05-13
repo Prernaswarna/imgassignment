@@ -35,6 +35,11 @@
           chatMessenger.sendQuery(requestString);
           console.log("Form data loaded and sent as request.");
           console.log(requestString);
+        } else {
+          // Send a fallback request when no form fields are filled out
+          const emptyRequestString = "No form fields filled out.";
+          chatMessenger.sendQuery(emptyRequestString);
+          console.log("No form fields detected. Sent fallback request: " + emptyRequestString);
         }
       };
       
