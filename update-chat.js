@@ -23,7 +23,7 @@
         chatSdk.registerContext(
           chatSdk.prebuilts.ces.createContext({
             deploymentName: deploymentName,
-            tokenBroker: { enableTokenBroker: true, enableRecaptcha: true }
+            tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
           })
         );
       }
