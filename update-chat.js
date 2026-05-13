@@ -29,17 +29,17 @@
       }
       // Define the action to execute once GECX is fully upgraded and authenticated
       const initializeSession = () => {
+        if (chatMessenger.dataset.querySent) return;
+        chatMessenger.dataset.querySent = "true";
         if (Object.keys(formParams).length > 0) {
-          // Convert form object to a string and send directly as the chat request
-          const requestString = JSON.stringify(formParams);
+          // Add an explicit English prefix so the LLM understands the JSON context immediately
+          const requestString = "Here are my pre-filled form details: " + JSON.stringify(formParams);
           chatMessenger.sendQuery(requestString);
-          console.log("Form data loaded and sent as request.");
-          console.log(requestString);
+          console.log("Form data sent with framing prefix.");
         } else {
-          // Send a fallback request when no form fields are filled out
-          const emptyRequestString = "No form fields filled out.";
+          const emptyRequestString = "No form fields filled out. Please help me get a quote.";
           chatMessenger.sendQuery(emptyRequestString);
-          console.log("No form fields detected. Sent fallback request: " + emptyRequestString);
+          console.log("Sent fallback request.");
         }
       };
       
