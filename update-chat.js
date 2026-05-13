@@ -27,13 +27,23 @@
           })
         );
       }
-      // Load the scraped form parameters into the session
-      if (Object.keys(formParams).length > 0) {
-        chatMessenger.setQueryParameters({ parameters: formParams });
+      // Define the action to execute once GECX is fully upgraded
+      const initializeSession = () => {
+        if (Object.keys(formParams).length > 0) {
+          chatMessenger.setQueryParameters({ parameters: formParams });
+          console.log("Form parameters loaded into GECX.");
+        }
+        // FORCE the agent to start talking programmatically
+        chatMessenger.sendRequest('event', 'WELCOME');
+        console.log("Chat started successfully with pre-filled parameters!");
+      };
+      // TIMING GUARD: If element is already upgraded, run immediately.
+      // Otherwise, wait for the widget's official load event to execute.
+      if (typeof chatMessenger.setQueryParameters === 'function') {
+        initializeSession();
+      } else {
+        chatMessenger.addEventListener('chat-messenger-loaded', initializeSession, { once: true });
       }
-      // FORCE the agent to start talking programmatically!
-      chatMessenger.sendRequest('event', 'WELCOME');
-      console.log("Chat started successfully with pre-filled parameters!");
     });
   }
   // Helper: Scrapes current form values
@@ -83,4 +93,3 @@
     });
   }
 })();
-
