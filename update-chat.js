@@ -34,7 +34,7 @@
           console.log("Form parameters loaded into GECX.");
         }
         // FORCE the agent to start talking programmatically
-        chatMessenger.sendRequest('event', 'WELCOME');
+        chatMessenger.sendRequest('event', 'sys.welcome');
         console.log("Chat started successfully with pre-filled parameters!");
       };
       // TIMING GUARD: If element is already upgraded, run immediately.
