@@ -34,6 +34,7 @@
           const requestString = JSON.stringify(formParams);
           chatMessenger.sendQuery(requestString);
           console.log("Form data loaded and sent as request.");
+          console.log(requestString);
         }
       };
       
