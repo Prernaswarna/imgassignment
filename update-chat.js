@@ -6,54 +6,53 @@
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing.");
     return;
   }
-  // 1. Load stylesheets and JS library immediately in the background
-  loadAssets();
-  // 2. Wait 30 seconds, then build and start the chat agent
+  // Register context mapping globally when the widget fires its loaded lifecycle event
+  window.addEventListener("chat-messenger-loaded", function() {
+    if (typeof chatSdk !== 'undefined') {
+      chatSdk.registerContext(
+        chatSdk.prebuilts.ces.createContext({
+          deploymentName: deploymentName,
+          enableWelcomeEvent: false, // Suppress duplicate native backend welcome events
+          tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
+        })
+      );
+    }
+  });
+  // Wait 30 seconds after page ingress before pulling assets and constructing the widget
   setTimeout(startChatAgent, 30000);
   function startChatAgent() {
-    // Create widget, scrape form inputs, and append it to the page
+    // 1. Load external stylesheets and JavaScript engine dynamically
+    loadAssets();
+    // 2. Scrape input elements prior to rendering the component DOM
+    const formParams = scrapeForm();
+    // 3. Construct custom element structure and inject into the document
     const chatMessenger = createWidgetElement();
     document.body.appendChild(chatMessenger);
-    const formParams = scrapeForm();
-    // Wait for browser component to initialize, then connect GECX
-    customElements.whenDefined('chat-messenger').then(function() {
-      
-      // Connect widget to your GECX Deployment
-      if (typeof chatSdk !== 'undefined') {
-        chatSdk.registerContext(
-          chatSdk.prebuilts.ces.createContext({
-            deploymentName: deploymentName,
-            tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
-          })
-        );
-      }
-      // Define the action to execute once GECX is fully upgraded and authenticated
-      const initializeSession = () => {
-        if (chatMessenger.dataset.querySent) return;
-        chatMessenger.dataset.querySent = "true";
-        if (Object.keys(formParams).length > 0) {
-          // Add an explicit English prefix so the LLM understands the JSON context immediately
-          const requestString = "Here are my pre-filled form details: " + JSON.stringify(formParams);
-          chatMessenger.sendQuery(requestString);
-          console.log("Form data sent with framing prefix.");
-        } else {
-          const emptyRequestString = "No form fields filled out. Please help me get a quote.";
-          chatMessenger.sendQuery(emptyRequestString);
-          console.log("Sent fallback request.");
-        }
-      };
-      
-      // TIMING GUARD: Wait for the widget to load, then give the Token Broker 
-      // a brief moment to successfully generate the chatToken before sending the request.
-      const onWidgetReady = () => {
-        setTimeout(initializeSession, 2000); // 2-second delay for authentication handshake
-      };
-      if (typeof chatMessenger.sendQuery === 'function') {
-        onWidgetReady();
+    // 4. Define the programmatic session message logic
+    const initializeSession = () => {
+      if (chatMessenger.dataset.querySent) return;
+      chatMessenger.dataset.querySent = "true";
+      if (Object.keys(formParams).length > 0) {
+        const requestString = "Here are my pre-filled form details: " + JSON.stringify(formParams);
+        chatMessenger.sendQuery(requestString);
+        console.log("Form data loaded and sent as request.");
       } else {
-        chatMessenger.addEventListener('chat-messenger-loaded', onWidgetReady, { once: true });
+        const emptyRequestString = "No form fields filled out. Please help me get a quote.";
+        chatMessenger.sendQuery(emptyRequestString);
+        console.log("No form fields detected. Sent fallback request.");
       }
-    });
+    };
+    
+    // TIMING GUARD: Once the component upgrades and fires loaded, context registration initiates.
+    // We allow a brief 2-second delay for the background Token Broker authentication handshake to finish.
+    const onWidgetReady = () => {
+      setTimeout(initializeSession, 2000);
+    };
+    if (typeof chatMessenger.sendQuery === 'function') {
+      onWidgetReady();
+    } else {
+      chatMessenger.addEventListener('chat-messenger-loaded', onWidgetReady, { once: true });
+    }
   }
   // Helper: Scrapes current form values
   function scrapeForm() {
