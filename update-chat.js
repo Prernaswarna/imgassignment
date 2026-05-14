@@ -6,54 +6,6 @@
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing.");
     return;
   }
-  // Register context mapping globally when the widget fires its loaded lifecycle event
-  window.addEventListener("chat-messenger-loaded", function() {
-    if (typeof chatSdk !== 'undefined') {
-      chatSdk.registerContext(
-        chatSdk.prebuilts.ces.createContext({
-          deploymentName: deploymentName,
-          enableWelcomeEvent: false, // Suppress duplicate native backend welcome events
-          tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
-        })
-      );
-    }
-  });
-  // Wait 30 seconds after page ingress before pulling assets and constructing the widget
-  setTimeout(startChatAgent, 30000);
-  function startChatAgent() {
-    // 1. Load external stylesheets and JavaScript engine dynamically
-    loadAssets();
-    // 2. Scrape input elements prior to rendering the component DOM
-    const formParams = scrapeForm();
-    // 3. Construct custom element structure and inject into the document
-    const chatMessenger = createWidgetElement();
-    document.body.appendChild(chatMessenger);
-    // 4. Define the programmatic session message logic
-    const initializeSession = () => {
-      if (chatMessenger.dataset.querySent) return;
-      chatMessenger.dataset.querySent = "true";
-      if (Object.keys(formParams).length > 0) {
-        const requestString = "Here are my pre-filled form details: " + JSON.stringify(formParams);
-        chatMessenger.sendQuery(requestString);
-        console.log("Form data loaded and sent as request.");
-      } else {
-        const emptyRequestString = "No form fields filled out. Please help me get a quote.";
-        chatMessenger.sendQuery(emptyRequestString);
-        console.log("No form fields detected. Sent fallback request.");
-      }
-    };
-    
-    // TIMING GUARD: Once the component upgrades and fires loaded, context registration initiates.
-    // We allow a brief 2-second delay for the background Token Broker authentication handshake to finish.
-    const onWidgetReady = () => {
-      setTimeout(initializeSession, 2000);
-    };
-    if (typeof chatMessenger.sendQuery === 'function') {
-      onWidgetReady();
-    } else {
-      chatMessenger.addEventListener('chat-messenger-loaded', onWidgetReady, { once: true });
-    }
-  }
   // Helper: Scrapes current form values
   function scrapeForm() {
     const params = {};
@@ -66,38 +18,75 @@
     }
     return params;
   }
-  // Helper: Creates clean HTML elements for the widget
-  function createWidgetElement() {
-    const widget = document.createElement('chat-messenger');
-    widget.setAttribute('url-allowlist', '*');
-    widget.setAttribute('render-mode', 'slide-over');
-    widget.classList.add('slide-over');
-    widget.style.position = 'fixed';
-    widget.style.zIndex = '9999';
-    const container = document.createElement('chat-messenger-container');
-    container.setAttribute('chat-title', agentTitle);
-    container.setAttribute('chat-title-icon', 'https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png');
-    container.setAttribute('enable-file-upload', '');
-    const toggle = document.createElement('chat-toggle-dialog-button');
-    toggle.setAttribute('slot', 'titlebar-actions');
-    container.appendChild(toggle);
-    widget.appendChild(container);
-    return widget;
+  // 1. Dynamically load CSS and JS assets immediately (matching baseline script)
+  const cssDefaultUrl = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-default.css';
+  if (!document.querySelector(`link[href="${cssDefaultUrl}"]`)) {
+    const cssDefault = document.createElement('link');
+    cssDefault.rel = 'stylesheet';
+    cssDefault.href = cssDefaultUrl;
+    document.head.appendChild(cssDefault);
   }
-  // Helper: Dynamically downloads CSS/JS tags
-  function loadAssets() {
-    const assets = [
-      { tag: 'link', rel: 'stylesheet', href: 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-default.css' },
-      { tag: 'link', rel: 'stylesheet', href: 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-layout.css' },
-      { tag: 'script', src: 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/chat-messenger.js', defer: true }
-    ];
-    assets.forEach(a => {
-      const selector = a.tag === 'link' ? `link[href="${a.href}"]` : `script[src="${a.src}"]`;
-      if (!document.querySelector(selector)) {
-        const el = document.createElement(a.tag);
-        Object.assign(el, a);
-        document.head.appendChild(el);
-      }
+  const cssLayoutUrl = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-layout.css';
+  if (!document.querySelector(`link[href="${cssLayoutUrl}"]`)) {
+    const cssLayout = document.createElement('link');
+    cssLayout.rel = 'stylesheet';
+    cssLayout.href = cssLayoutUrl;
+    document.head.appendChild(cssLayout);
+  }
+  const librarySrc = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/chat-messenger.js';
+  if (!document.querySelector(`script[src="${librarySrc}"]`)) {
+    const script = document.createElement('script');
+    script.src = librarySrc;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+  // 2. Register context globally with silent parameter mapping and automated welcome dispatch
+  window.addEventListener("chat-messenger-loaded", function() {
+    const formParams = scrapeForm();
+    if (typeof chatSdk !== 'undefined') {
+      chatSdk.registerContext(
+        chatSdk.prebuilts.ces.createContext({
+          deploymentName: deploymentName,
+          enableWelcomeEvent: true, // Automatically dispatches a single native start-of-session event
+          sessionParams: formParams, // Injects scraped form fields silently into backend memory
+          tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
+        })
+      );
+    }
+  });
+  // 3. Build and initialize the chat agent matching your pristine baseline structure
+  function startChatAgent() {
+    customElements.whenDefined('chat-messenger').then(function() {
+      if (document.querySelector('chat-messenger')) return;
+      const chatMessenger = document.createElement('chat-messenger');
+      chatMessenger.setAttribute('url-allowlist', '*');
+      chatMessenger.setAttribute('render-mode', 'slide-over');
+      chatMessenger.classList.add('slide-over');
+      chatMessenger.style.position = 'fixed';
+      chatMessenger.style.zIndex = '9999';
+      const container = document.createElement('chat-messenger-container');
+      container.setAttribute('chat-title', agentTitle);
+      container.setAttribute('chat-title-icon', 'https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png');
+      container.setAttribute('enable-file-upload', '');
+      const resetButton = document.createElement('chat-reset-session-button');
+      resetButton.setAttribute('slot', 'titlebar-actions');
+      resetButton.setAttribute('title-text', 'Start new chat');
+      const toggleButton = document.createElement('chat-toggle-dialog-button');
+      toggleButton.setAttribute('slot', 'titlebar-actions');
+      toggleButton.setAttribute('title-text-expanded', 'Collapse');
+      toggleButton.setAttribute('title-text-collapsed', 'Expand');
+      const closeButton = document.createElement('chat-messenger-close-button');
+      closeButton.setAttribute('slot', 'titlebar-actions');
+      closeButton.setAttribute('title-text', 'Close');
+      container.appendChild(resetButton);
+      container.appendChild(toggleButton);
+      container.appendChild(closeButton);
+      chatMessenger.appendChild(container);
+      document.body.appendChild(chatMessenger);
+      
+      console.log("Chat agent initialized cleanly with automated welcome configuration.");
     });
   }
+  // Trigger custom initialization flow after your 30-second timer
+  setTimeout(startChatAgent, 30000);
 })();
