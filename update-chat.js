@@ -40,15 +40,13 @@
     script.defer = true;
     document.head.appendChild(script);
   }
-  // 2. Register context globally with silent parameter mapping and automated welcome dispatch
+  // 2. Register context mapping globally when loaded fires (matching baseline script)
   window.addEventListener("chat-messenger-loaded", function() {
-    const formParams = scrapeForm();
     if (typeof chatSdk !== 'undefined') {
       chatSdk.registerContext(
         chatSdk.prebuilts.ces.createContext({
           deploymentName: deploymentName,
-          enableWelcomeEvent: true, // Automatically dispatches a single native start-of-session event
-          sessionParams: formParams, // Injects scraped form fields silently into backend memory
+          enableWelcomeEvent: false, // Suppress duplicate native backend welcome events
           tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
         })
       );
@@ -58,9 +56,11 @@
   function startChatAgent() {
     customElements.whenDefined('chat-messenger').then(function() {
       if (document.querySelector('chat-messenger')) return;
+      const formParams = scrapeForm();
       const chatMessenger = document.createElement('chat-messenger');
       chatMessenger.setAttribute('url-allowlist', '*');
       chatMessenger.setAttribute('render-mode', 'slide-over');
+      chatMessenger.setAttribute('send-welcome-event', 'false');
       chatMessenger.classList.add('slide-over');
       chatMessenger.style.position = 'fixed';
       chatMessenger.style.zIndex = '9999';
@@ -83,10 +83,24 @@
       container.appendChild(closeButton);
       chatMessenger.appendChild(container);
       document.body.appendChild(chatMessenger);
-      
-      console.log("Chat agent initialized cleanly with automated welcome configuration.");
+      // 4. Define the programmatic query logic exactly as instructed by your prompt
+      const initializeSession = () => {
+        if (chatMessenger.dataset.querySent) return;
+        chatMessenger.dataset.querySent = "true";
+        if (Object.keys(formParams).length > 0) {
+          const requestString = "Here are my pre-filled form details: " + JSON.stringify(formParams);
+          chatMessenger.sendQuery(requestString);
+          console.log("Form data sent programmatically.");
+        } else {
+          const emptyRequestString = "No form fields filled out.";
+          chatMessenger.sendQuery(emptyRequestString);
+          console.log("Empty form request sent programmatically.");
+        }
+      };
+      // Allow component and Token Broker handshakes to settle
+      setTimeout(initializeSession, 2000);
     });
   }
-  // Trigger custom initialization flow after your 30-second timer
+  // Trigger custom initialization flow after your ingress delay
   setTimeout(startChatAgent, 30000);
 })();
