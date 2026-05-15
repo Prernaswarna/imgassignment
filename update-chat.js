@@ -101,13 +101,13 @@
       chatMessenger.appendChild(container);
       document.body.appendChild(chatMessenger);
       // Initialize Google Sign-In chip once GSI library is fully loaded
+      // Initialize Google Sign-In once GSI library is fully loaded
       const initAuthChip = () => {
         if (window.google && google.accounts && google.accounts.id) {
           google.accounts.id.initialize({
             client_id: oauthClientId,
             callback: (response) => {
               console.log("Optional Google Sign-In successful.");
-              // Pass the authenticated user token into Dialogflow CX session parameters
               if (typeof chatMessenger.setQueryParameters === 'function') {
                 chatMessenger.setQueryParameters({
                   parameters: {
@@ -115,16 +115,22 @@
                   }
                 });
               }
-              // Replace chip with a visual confirmation
-              authChipContainer.innerHTML = '<span style="color: #1a73e8; font-size: 12px; font-weight: 500; padding: 4px 8px; background: #e8f0fe; border-radius: 12px;">✓ Verified</span>';
+              // Replace chip with a premium glassmorphism/pill badge once verified
+              authChipContainer.innerHTML = '<span style="color: #1a73e8; font-size: 12px; font-weight: 600; padding: 6px 12px; background: #e8f0fe; border: 1px solid #d2e3fc; border-radius: 16px; display: inline-flex; align-items: center; gap: 4px;">✓ Verified</span>';
             }
           });
+          
+          // 1. Render the beautiful rounded "Pill" chip in the titlebar
           google.accounts.id.renderButton(authChipContainer, {
             type: "standard",
-            theme: "outline",
-            size: "small",
-            text: "signin"
+            theme: "filled_blue", // Sleek blue background
+            shape: "pill",        // Rounded chip shape
+            size: "medium",
+            text: "signin_with",
+            logo_alignment: "left"
           });
+          // 2. Trigger Google One Tap sliding prompt for seamless login
+          google.accounts.id.prompt();
         } else {
           setTimeout(initAuthChip, 500);
         }
