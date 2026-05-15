@@ -1,6 +1,7 @@
 (function() {
   const deploymentName = window.cesDeploymentName;
   const agentTitle = window.cesAgentTitle || "Agent";
+  const oauthClientId = "531441956178-vh7bgce9hkb9svgajkb34458u4f5ip9t.apps.googleusercontent.com";
   
   if (!deploymentName) {
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing.");
@@ -61,6 +62,11 @@
       chatMessenger.setAttribute('url-allowlist', '*');
       chatMessenger.setAttribute('render-mode', 'slide-over');
       chatMessenger.setAttribute('send-welcome-event', 'false');
+      
+      // Attach the OAuth Client ID attribute to initiate Google Sign-In flow
+      if (oauthClientId) {
+        chatMessenger.setAttribute('oauth-client-id', oauthClientId);
+      }
       chatMessenger.classList.add('slide-over');
       chatMessenger.style.position = 'fixed';
       chatMessenger.style.zIndex = '9999';
