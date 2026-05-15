@@ -7,7 +7,6 @@
     console.error("CX Agent Studio Widget Error: data-deployment-name attribute is missing.");
     return;
   }
-  // Helper: Scrapes current form values
   function scrapeForm() {
     const params = {};
     const form = document.querySelector('form');
@@ -19,7 +18,7 @@
     }
     return params;
   }
-  // 1. Dynamically load CSS and JS assets immediately (matching baseline script)
+  // 1. Dynamically load CSS, widget JS, and Google Identity Services (GSI) for the login chip
   const cssDefaultUrl = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-default.css';
   if (!document.querySelector(`link[href="${cssDefaultUrl}"]`)) {
     const cssDefault = document.createElement('link');
@@ -41,19 +40,27 @@
     script.defer = true;
     document.head.appendChild(script);
   }
-  // 2. Register context mapping globally when loaded fires (matching baseline script)
+  const gsiSrc = 'https://accounts.google.com/gsi/client';
+  if (!document.querySelector(`script[src="${gsiSrc}"]`)) {
+    const gsiScript = document.createElement('script');
+    gsiScript.src = gsiSrc;
+    gsiScript.defer = true;
+    document.head.appendChild(gsiScript);
+  }
+  // 2. Register context mapping globally when loaded fires (enabling default token broker)
   window.addEventListener("chat-messenger-loaded", function() {
     if (typeof chatSdk !== 'undefined') {
       chatSdk.registerContext(
         chatSdk.prebuilts.ces.createContext({
           deploymentName: deploymentName,
-          enableWelcomeEvent: false, // Suppress duplicate native backend welcome events
+          enableWelcomeEvent: false,
+          // Defaults to unauthenticated anonymous token broker session
           tokenBroker: { enableTokenBroker: true, enableRecaptcha: false }
         })
       );
     }
   });
-  // 3. Build and initialize the chat agent matching your pristine baseline structure
+  // 3. Build and initialize the chat agent
   function startChatAgent() {
     customElements.whenDefined('chat-messenger').then(function() {
       if (document.querySelector('chat-messenger')) return;
@@ -62,11 +69,7 @@
       chatMessenger.setAttribute('url-allowlist', '*');
       chatMessenger.setAttribute('render-mode', 'slide-over');
       chatMessenger.setAttribute('send-welcome-event', 'false');
-      
-      // Attach the OAuth Client ID attribute to initiate Google Sign-In flow
-      if (oauthClientId) {
-        chatMessenger.setAttribute('oauth-client-id', oauthClientId);
-      }
+      // Note: NO oauth-client-id attribute here so the chat remains unblocked/anonymous by default
       chatMessenger.classList.add('slide-over');
       chatMessenger.style.position = 'fixed';
       chatMessenger.style.zIndex = '9999';
@@ -74,6 +77,12 @@
       container.setAttribute('chat-title', agentTitle);
       container.setAttribute('chat-title-icon', 'https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png');
       container.setAttribute('enable-file-upload', '');
+      // Create a container in the titlebar specifically for the optional Google Sign-In chip
+      const authChipContainer = document.createElement('div');
+      authChipContainer.setAttribute('slot', 'titlebar-actions');
+      authChipContainer.style.display = 'inline-block';
+      authChipContainer.style.marginRight = '8px';
+      authChipContainer.style.verticalAlign = 'middle';
       const resetButton = document.createElement('chat-reset-session-button');
       resetButton.setAttribute('slot', 'titlebar-actions');
       resetButton.setAttribute('title-text', 'Start new chat');
@@ -84,12 +93,44 @@
       const closeButton = document.createElement('chat-messenger-close-button');
       closeButton.setAttribute('slot', 'titlebar-actions');
       closeButton.setAttribute('title-text', 'Close');
+      // Append titlebar items in visual order
+      container.appendChild(authChipContainer);
       container.appendChild(resetButton);
       container.appendChild(toggleButton);
       container.appendChild(closeButton);
       chatMessenger.appendChild(container);
       document.body.appendChild(chatMessenger);
-      // 4. Define the programmatic query logic exactly as instructed by your prompt
+      // Initialize Google Sign-In chip once GSI library is fully loaded
+      const initAuthChip = () => {
+        if (window.google && google.accounts && google.accounts.id) {
+          google.accounts.id.initialize({
+            client_id: oauthClientId,
+            callback: (response) => {
+              console.log("Optional Google Sign-In successful.");
+              // Pass the authenticated user token into Dialogflow CX session parameters
+              if (typeof chatMessenger.setQueryParameters === 'function') {
+                chatMessenger.setQueryParameters({
+                  parameters: {
+                    id_token: response.credential
+                  }
+                });
+              }
+              // Replace chip with a visual confirmation
+              authChipContainer.innerHTML = '<span style="color: #1a73e8; font-size: 12px; font-weight: 500; padding: 4px 8px; background: #e8f0fe; border-radius: 12px;">✓ Verified</span>';
+            }
+          });
+          google.accounts.id.renderButton(authChipContainer, {
+            type: "standard",
+            theme: "outline",
+            size: "small",
+            text: "signin"
+          });
+        } else {
+          setTimeout(initAuthChip, 500);
+        }
+      };
+      initAuthChip();
+      // 4. Define programmatic query logic
       const initializeSession = () => {
         if (chatMessenger.dataset.querySent) return;
         chatMessenger.dataset.querySent = "true";
@@ -103,10 +144,8 @@
           console.log("Empty form request sent programmatically.");
         }
       };
-      // Allow component and Token Broker handshakes to settle
       setTimeout(initializeSession, 2000);
     });
   }
-  // Trigger custom initialization flow after your ingress delay
   setTimeout(startChatAgent, 30000);
 })();
