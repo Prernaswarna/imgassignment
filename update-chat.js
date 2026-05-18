@@ -124,7 +124,6 @@
         if (window.google && google.accounts && google.accounts.id) {
           google.accounts.id.initialize({
             client_id: oauthClientId,
-            ux_mode: "redirect",
               callback: (response) => {
                   console.log("Optional Google Sign-In successful.");
     
