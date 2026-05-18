@@ -126,6 +126,7 @@
             client_id: oauthClientId,
               callback: (response) => {
                   console.log("Optional Google Sign-In successful.");
+                  console.log("Logging oauth details :" + payload.name + " " + payload.given_name + " " + payload.email);
     
                   const payload = decodeJwt(response.credential);
                   if (payload && typeof chatMessenger.setQueryParameters === 'function') {
