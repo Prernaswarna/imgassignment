@@ -125,11 +125,10 @@
           google.accounts.id.initialize({
             client_id: oauthClientId,
               callback: (response) => {
-                  console.log("Optional Google Sign-In successful.");
-                  console.log("Logging oauth details :" + payload.name + " " + payload.given_name + " " + payload.email);
-    
+                  console.log("Optional Google Sign-In successful.");    
                   const payload = decodeJwt(response.credential);
                   if (payload && typeof chatMessenger.setQueryParameters === 'function') {
+                    console.log("Logging oauth details :" + payload.name + " " + payload.given_name + " " + payload.email);
                     chatMessenger.setQueryParameters({
                       parameters: {
                         id_token: response.credential, // Keep signed token if backend verification is required later
