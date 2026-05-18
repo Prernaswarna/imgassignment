@@ -126,17 +126,10 @@
               client_id: oauthClientId,
               ux_mode: "popup", 
               callback: (response) => {
-                // 🔍 DIAGNOSTIC LOGS:
-                console.log("🟢 ---------------------------------------------");
-                console.log("🟢 Google Sign-In Callback fired successfully!");
-                console.log("🟢 ID Token length:", response.credential ? response.credential.length : 0);
+                console.log("Google Sign-In Callback fired successfully!");
   
                 const payload = decodeJwt(response.credential);
-                console.log("🟢 Decoded Payload:", payload);
-  
-                console.log("🟢 chatMessenger element exists:", !!chatMessenger);
-                console.log("🟢 setVariables exists on element:", typeof chatMessenger.setVariables);
-                console.log("🟢 ---------------------------------------------");
+                console.log("Decoded Payload:", payload);
   
                 if (payload) {
                   if (typeof chatMessenger.setVariables === 'function') {
@@ -146,9 +139,9 @@
                       user_given_name: payload.given_name,
                       user_email: payload.email
                     });
-                    console.log("🟢 Successfully called chatMessenger.setVariables!");
+                    console.log("Successfully called chatMessenger.setVariables!");
                   } else {
-                    console.warn("🔴 setVariables is NOT a function on your chat-messenger element!");
+                    console.warn("setVariables is NOT a function on your chat-messenger element!");
                   }
                 }
                 
