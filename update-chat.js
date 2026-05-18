@@ -119,43 +119,55 @@
       container.appendChild(closeButton);
       chatMessenger.appendChild(container);
       document.body.appendChild(chatMessenger);
-      // Initialize Google Sign-In icon once GSI library is fully loaded
-      const initAuthChip = () => {
-        if (window.google && google.accounts && google.accounts.id) {
-          google.accounts.id.initialize({
-            client_id: oauthClientId,
+      // Initialize Google Sign-In once GSI is loaded (with diagnostics)
+        const initAuthChip = () => {
+          if (window.google && google.accounts && google.accounts.id) {
+            google.accounts.id.initialize({
+              client_id: oauthClientId,
+              ux_mode: "popup", 
               callback: (response) => {
-                  console.log("Optional Google Sign-In successful.");    
-                  const payload = decodeJwt(response.credential);
-                  if (payload && typeof chatMessenger.setQueryParameters === 'function') {
-                    console.log("Logging oauth details :" + payload.name + " " + payload.given_name + " " + payload.email);
+                // 🔍 DIAGNOSTIC LOGS:
+                console.log("🟢 ---------------------------------------------");
+                console.log("🟢 Google Sign-In Callback fired successfully!");
+                console.log("🟢 ID Token length:", response.credential ? response.credential.length : 0);
+  
+                const payload = decodeJwt(response.credential);
+                console.log("🟢 Decoded Payload:", payload);
+  
+                console.log("🟢 chatMessenger element exists:", !!chatMessenger);
+                console.log("🟢 setVariables exists on element:", typeof chatMessenger.setVariables);
+                console.log("🟢 ---------------------------------------------");
+  
+                if (payload) {
+                  if (typeof chatMessenger.setVariables === 'function') {
                     chatMessenger.setVariables({
-                      parameters: {
-                        id_token: response.credential, // Keep signed token if backend verification is required later
-                        user_name: payload.name,
-                        user_given_name: payload.given_name,
-                        user_email: payload.email
-                      }
+                      id_token: response.credential,
+                      user_name: payload.name,
+                      user_given_name: payload.given_name,
+                      user_email: payload.email
                     });
+                    console.log("🟢 Successfully called chatMessenger.setVariables!");
+                  } else {
+                    console.warn("🔴 setVariables is NOT a function on your chat-messenger element!");
                   }
-                  // Replace G icon with a compact verified checkmark badge
-                  authChipContainer.innerHTML = '<span style="color: #1a73e8; font-size: 14px; font-weight: bold; padding: 4px 8px; background: #e8f0fe; border-radius: 50%;" title="Verified">✓</span>';
+                }
+                
+                authChipContainer.innerHTML = '<span style="color: #1a73e8; font-size: 14px; font-weight: bold; padding: 4px 8px; background: #e8f0fe; border-radius: 50%;" title="Verified">✓</span>';
               }
-          });
-          
-          // Render the ultra-compact circular Google 'G' icon button
-          google.accounts.id.renderButton(authChipContainer, {
-            type: "icon",       // Icon-only mode (no text)
-            shape: "circle",    // Perfect circular footprint matching titlebar buttons
-            theme: "outline",   // Subtle border
-            size: "small"       // Matches dimensions of existing titlebar icons
-          });
-          // Trigger Google One Tap floating prompt for effortless login
-          google.accounts.id.prompt();
-        } else {
-          setTimeout(initAuthChip, 500);
-        }
-      };
+            });
+            
+            google.accounts.id.renderButton(authChipContainer, {
+              type: "icon",
+              shape: "circle",
+              theme: "outline",
+              size: "small"
+            });
+            
+            google.accounts.id.prompt();
+          } else {
+            setTimeout(initAuthChip, 500);
+          }
+        };
       initAuthChip();
       // 4. Define the programmatic query logic exactly as instructed by your prompt
       const initializeSession = () => {
