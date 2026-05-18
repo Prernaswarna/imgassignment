@@ -19,6 +19,25 @@
     }
     return params;
   }
+
+  // JWT Token
+    function decodeJwt(token) {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        window.atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      console.error("Failed to decode JWT payload:", e);
+      return null;
+    }
+  }
+  
   // 1. Dynamically load CSS and JS assets immediately (including Google Identity Services)
   const cssDefaultUrl = 'https://www.gstatic.com/ces-console/fast/chat-messenger/prod/v1.15/themes/chat-messenger-default.css';
   if (!document.querySelector(`link[href="${cssDefaultUrl}"]`)) {
@@ -105,19 +124,23 @@
         if (window.google && google.accounts && google.accounts.id) {
           google.accounts.id.initialize({
             client_id: oauthClientId,
-            callback: (response) => {
-              console.log("Optional Google Sign-In successful.");
-              // Inject authenticated identity token into chat session query parameters
-              if (typeof chatMessenger.setQueryParameters === 'function') {
-                chatMessenger.setQueryParameters({
-                  parameters: {
-                    id_token: response.credential
+              callback: (response) => {
+                  console.log("Optional Google Sign-In successful.");
+    
+                  const payload = decodeJwt(response.credential);
+                  if (payload && typeof chatMessenger.setQueryParameters === 'function') {
+                    chatMessenger.setQueryParameters({
+                      parameters: {
+                        id_token: response.credential, // Keep signed token if backend verification is required later
+                        user_name: payload.name,
+                        user_given_name: payload.given_name,
+                        user_email: payload.email
+                      }
+                    });
                   }
-                });
+                  // Replace G icon with a compact verified checkmark badge
+                  authChipContainer.innerHTML = '<span style="color: #1a73e8; font-size: 14px; font-weight: bold; padding: 4px 8px; background: #e8f0fe; border-radius: 50%;" title="Verified">✓</span>';
               }
-              // Replace G icon with a compact verified checkmark badge
-              authChipContainer.innerHTML = '<span style="color: #1a73e8; font-size: 14px; font-weight: bold; padding: 4px 8px; background: #e8f0fe; border-radius: 50%;" title="Verified">✓</span>';
-            }
           });
           
           // Render the ultra-compact circular Google 'G' icon button
