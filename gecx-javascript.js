@@ -3,12 +3,11 @@
   const currentScript = document.currentScript;
   
   // Extract configurations from either dataset parameters (data-*) or fallback global window variables
-  const agentName = (currentScript && currentScript.dataset.agentName) || window.gecxAgentName;
-  const endpointConfig = (currentScript && currentScript.dataset.endpointConfig) || window.gecxEndpointConfig;
-  const tokenBroker = (currentScript && currentScript.dataset.tokenBroker) || window.gecxTokenBroker;
-  const environment = (currentScript && currentScript.dataset.environment) || window.gecxEnvironment || "prod";
-  const clientId = (currentScript && currentScript.dataset.clientId) || window.gecxClientId || "gecx-user";
-  const userId = (currentScript && currentScript.dataset.userId) || window.gecxUserId || "";
+  const agentName = "projects/531441956178/locations/global/agents/cea824fc-f195-4222-a773-aa538e939599";
+  const endpointConfig = "projects/531441956178/locations/us/omnichannelEndpointConfigs/src-wsdk-0284700b-0317-4d3b-a517-a541b35cd757";
+  const tokenBroker = "projects/531441956178/locations/us/omnichannelTokenBrokers/tb-541b36c9-d913-4bb6-a3b3-2a28d6570167";
+  const environment = "prod";
+  const clientId = "gecx-user";
   const enableLogging = (currentScript && currentScript.dataset.enableLogging !== "false") && window.gecxEnableLogging !== false;
   const hideLauncher = (currentScript && currentScript.dataset.hideLauncher === "true") || window.gecxHideLauncher === true;
   // Validation: Guard against missing essential GECX parameters
@@ -48,9 +47,6 @@
       }
       if (clientId) {
         widget.setAttribute('client-id', clientId);
-      }
-      if (userId) {
-        widget.setAttribute('user-id', userId);
       }
       if (enableLogging) {
         widget.setAttribute('enable-logging', 'true');
