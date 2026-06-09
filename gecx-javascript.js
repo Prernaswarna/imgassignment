@@ -3,9 +3,9 @@
     const currentScript = document.currentScript;
     
     // Extract configurations from either dataset parameters (data-*) or fallback global window variables
-    const agentName = "projects/531441956178/locations/global/agents/cea824fc-f195-4222-a773-aa538e939599";
-    const endpointConfig = "projects/531441956178/locations/us/omnichannelEndpointConfigs/src-wsdk-0284700b-0317-4d3b-a517-a541b35cd757";
-    const tokenBroker = "projects/531441956178/locations/us/omnichannelTokenBrokers/tb-541b36c9-d913-4bb6-a3b3-2a28d6570167";
+    const agentName = window.cesAgentName;
+    const endpointConfig = window.cesEndpointConfig;
+    const tokenBroker = window.cesTokenBroker;
     const environment = "prod";
     const clientId = "gecx-user";
   
