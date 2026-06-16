@@ -1,12 +1,8 @@
   (function() {
-    // 1. Get the current script element and extract configuration parameters
-    const currentScript = document.currentScript;
-    
     // Extract configurations from either dataset parameters (data-*) or fallback global window variables
     const agentName = window.cesAgentName;
     const endpointConfig = window.cesEndpointConfig;
     const tokenBroker = window.cesTokenBroker;
-    const environment = "prod";
     const clientId = "gecx-user";
   
     
