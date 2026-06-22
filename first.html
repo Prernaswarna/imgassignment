@@ -4,9 +4,51 @@
 <head>
 <title>IMG Recruitment 2020</title>
 <link href="first.css" type="text/css" rel="stylesheet">
+	<script defer
+  src="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/chat-messenger.js">
+</script>
+<link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-default.css">
+<link rel="stylesheet" href="https://www.gstatic.com/chat-messenger/sdk/prod/v1.16/themes/chat-messenger-layout.css">
 </head>
 
 <body>
+	<script>
+    window.addEventListener("chat-messenger-loaded", () => {
+      chatSdk.registerContext(
+        chatSdk.prebuilts.ces.createContext({
+          deploymentName: "projects/531441956178/locations/us/apps/cf76476a-78a0-4cf9-9a53-3c8633cce487/deployments/1e6844f3-1778-464f-8d76-638f5dce3fa6",
+          tokenBroker: {
+            enableTokenBroker: true,
+            enableRecaptcha: false
+          }
+        }),
+      );
+    });
+</script>
+<!-- Update the url-allowlist attribute with a comma-separated list of origins allowed to render images -->
+<chat-messenger
+  url-allowlist="*"
+>
+  <chat-messenger-container
+    chat-title="Chat Agent"
+    chat-title-icon="https://gstatic.com/dialogflow-console/common/assets/ccai-favicons/conversational_agents.png"
+    enable-file-upload
+  >
+    <chat-reset-session-button
+      slot="titlebar-actions"
+      title-text="Start new chat"
+    ></chat-reset-session-button>
+    <chat-toggle-dialog-button
+      slot="titlebar-actions"
+      title-text-expanded="Collapse"
+      title-text-collapsed="Expand"
+    ></chat-toggle-dialog-button>
+    <chat-messenger-close-button
+      slot="titlebar-actions"
+      title-text="Close"
+    ></chat-messenger-close-button>
+  </chat-messenger-container>
+</chat-messenger>
 <div class="bod">
 	<div class="header">
 		<div id="nav-bar">
@@ -41,7 +83,7 @@
 
 		<div class="Development">
 			<h3>Development</h3>
-			<p>Join us to work on the development of the institute’s official website and the campus’ omnipotent intranet portal, Channel-i, all while exploring the recent technologies in a variety of fields. </p>
+			<p>Join us to work on the development of the instituteâ€™s official website and the campusâ€™ omnipotent intranet portal, Channel-i, all while exploring the recent technologies in a variety of fields. </p>
  			<a href="./main.html" class="how">How to join ?</a>
 		</div>
 
@@ -57,7 +99,7 @@
 	<div class="fourth" style="max-width:50%">
 		<div class="why">
 			<h3>Why IMG ?</h3>
-			<p>IMG is where you can get to meet, learn from, work with and hopefully, become one of the best developers or designers of the IIT Roorkee campus (at least). With the near-infinite resources at your disposal, unleash the tech beast in you and explore almost any field ‘under expert supervision’. </p>
+			<p>IMG is where you can get to meet, learn from, work with and hopefully, become one of the best developers or designers of the IIT Roorkee campus (at least). With the near-infinite resources at your disposal, unleash the tech beast in you and explore almost any field â€˜under expert supervisionâ€™. </p>
 			<a href="./main.html">Know more</a>
 		</div>
 
